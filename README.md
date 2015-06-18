@@ -1,7 +1,7 @@
-Emergency Kitten!
+Emergency Puppy!
 =================
 
-This is the Node.js + Express app that powers <http://www.emergencykitten.com/>.
+This is the Node.js + Express app that powers <http://www.emergencypuppy.party/>.
 
 
 Installing
@@ -13,11 +13,11 @@ Installing
 
 3. Clone this git repo (fork it first if you plan to make changes).
 
-        $ git clone git://github.com/rgrove/emergencykitten.git
+        $ git clone git://github.com/b-turchyn/emergencypuppy.git
 
 4. Install dependencies using npm.
 
-        $ cd emergencykitten && npm install
+        $ cd emergencypuppy && npm install
 
 5. Start the local emergencykitten server.
 
@@ -35,13 +35,13 @@ before working on it.
 
 I'm pretty picky about code quality and simplicity, so don't be alarmed if I
 ask you to change things or just say I'm not interested. If you're offended,
-maybe [a kitten](http://www.emergencykitten.com/) will help cheer you up?
+maybe [a puppy](http://www.emergencypuppy.puppy/) will help cheer you up?
 
 
 License
 -------
 
-Copyright (c) 2012 Ryan Grove.
+Copyright (c) 2015 Brian Turchyn, forked from https://github.com/rgrove/emergencykitten
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

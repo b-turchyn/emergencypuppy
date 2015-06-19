@@ -3,6 +3,8 @@ var express = require('express'),
 
 var app = express();
 
+app.enable('etag')
+
 app.engine('handlebars', require('./lib/handlebars-engine'));
 
 app.set('view engine', 'handlebars');
@@ -11,6 +13,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
+    res.set('Cache-Control', 'no-cache')
     res.render('index', {
         puppy: puppies.randomKitten()
     });

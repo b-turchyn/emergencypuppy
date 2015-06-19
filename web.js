@@ -1,5 +1,5 @@
 var express = require('express'),
-    kittens = require('./lib/kittens');
+    puppies = require('./lib/puppies');
 
 var app = express();
 
@@ -12,33 +12,33 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
     res.render('index', {
-        kitten: kittens.randomKitten()
+        puppy: puppies.randomKitten()
     });
 });
 
 app.get('/img/random', function (req, res) {
-    res.redirect(302, kittens.randomKitten().imageUrl);
+    res.redirect(302, puppies.randomKitten().imageUrl);
 });
 
 app.get('/img/:id', function (req, res, next) {
-    var kitten = kittens.byId(req.params.id);
+    var puppy = puppies.byId(req.params.id);
 
-    if (!kitten) {
+    if (!puppy) {
         return next();
     }
 
-    res.redirect(302, kitten.imageUrl);
+    res.redirect(302, puppy.imageUrl);
 });
 
-app.get('/kitten/:id', function (req, res, next) {
-    var kitten = kittens.byId(req.params.id);
+app.get('/puppy/:id', function (req, res, next) {
+    var puppy = puppies.byId(req.params.id);
 
-    if (!kitten) {
+    if (!puppy) {
         return next();
     }
 
     res.render('index', {
-        kitten: kitten
+        puppy: puppy
     });
 });
 
@@ -47,7 +47,7 @@ app.get('*', function (req, res) {
     res.set('Status', 404);
 
     res.render('404', {
-        kitten: kittens.randomKitten(),
+        puppy: puppies.randomKitten(),
         path  : decodeURIComponent(req.path),
         title : '404 Oh Noes!'
     });

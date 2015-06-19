@@ -2,7 +2,13 @@
     {{#puppy}}
         <p>
             <a href="{{url}}" title="{{title}}" class="puppy">
-                <img class="puppy-image" src="/img/{{id}}" alt="{{imageAlt}}">
+                {{#if videoUrl}}
+                <video autoplay="" loop="" muted="" preload="" class="puppy-image">
+                    <source src="{{videoUrl}}.webm" type="video/webm" class="imgurgifvwebmsrc">
+                    <source src="{{videoUrl}}.mp4" type="video/mp4" class="imgurgifvmp4src">
+                </video>
+                {{/if}}
+                {{#if imageUrl}}<img class="puppy-image" src="/img/{{id}}" alt="{{imageAlt}}">{{/if}}
             </a>
         </p>
 

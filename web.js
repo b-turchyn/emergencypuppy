@@ -37,14 +37,15 @@ app.get('/submit', function(req, res) {
 app.post('/submit', function(req, res) {
   var errors = [];
   if( req.body.redditURL === undefined 
-    || !(req.body.redditURL.lastIndexOf('https://www.reddit.com/', 0) !== 0
-    || req.body.redditURL.lastIndexOf('http://www.reddit.com/', 0) !== 0 ) ) {
+    || !(req.body.redditURL.lastIndexOf('https://www.reddit.com/', 0) === 0
+    || req.body.redditURL.lastIndexOf('http://www.reddit.com/', 0) === 0 ) ) {
       errors.push('Invalid URL');
   }
 
   if( errors.length === 0 ) {
     puppies.submit(req.body.redditURL, req.ip, function(result, id) {
       res.render('submit', {
+        post: true,
         result: result
       });
       request(req.body.redditURL, function (error, response, body) {
@@ -66,6 +67,7 @@ app.post('/submit', function(req, res) {
     });
   } else {
     res.render('submit', {
+      post: true,
       errors: errors,
       result: false
     });

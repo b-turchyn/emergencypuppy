@@ -1,0 +1,15 @@
+<h1>Submit A Puppy</h1>
+<p>Currently we only read Imgur URLs from Reddit. To submit a picture, please provide the comments link to an Imgur URL. All submissions are moderated. Required fields are marked with an asterisk. Your IP address will be logged along with the submission.</p>
+<form method="post" action="/submit">
+  <div class="form-group">
+    <label for="redditURL">* Reddit URL</label>
+    <input type="text" class="form-control" id="redditURL" name="redditURL">
+  </div>
+  <div class="form-group">
+    <label for="email">Your Email</label>
+    <input type="text" class="form-control" id="email" name="email">
+  </div>
+  <div class="text-center">
+    <button type="submit" class="btn btn-default">Submit</button>
+  </div>
+</form>

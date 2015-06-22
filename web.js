@@ -26,8 +26,10 @@ app.get('/', function (req, res) {
       sha = crypto.createHash('sha1');
       sha.update(puppy.source, 'utf8');
       res.set('ETag', sha.digest('hex'));
+      console.log(req.protocol + '://' + req.get('host') + '/');
       res.render('index', {
-        puppy: puppy
+        puppy: puppy,
+        urlPrefix: req.protocol + '://' + req.get('host') + '/'
       });
     });
 });
@@ -104,7 +106,8 @@ app.get('/puppy/:id', function (req, res, next) {
         return next();
     }
     res.render('index', {
-        puppy: puppy
+        puppy: puppy,
+        urlPrefix: req.protocol + '://' + req.get('host') + '/'
     });
   });
 });

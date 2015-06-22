@@ -28,6 +28,7 @@ app.get('/', function (req, res) {
       res.set('ETag', sha.digest('hex'));
       res.render('index', {
         puppy: puppy,
+        showOGP: true,
         urlPrefix: req.protocol + '://' + req.get('host') + '/'
       });
     });
@@ -106,6 +107,7 @@ app.get('/puppy/:id', function (req, res, next) {
     }
     res.render('index', {
         puppy: puppy,
+        showOGP: true,
         urlPrefix: req.protocol + '://' + req.get('host') + '/'
     });
   });

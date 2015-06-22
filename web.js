@@ -1,4 +1,5 @@
 var express = require('express'),
+    crypto = require('crypto'),
     puppies = require('./lib/puppies'),
     sqlite3 = require('sqlite3'),
     bodyParser = require('body-parser'),
@@ -22,6 +23,9 @@ app.get('/', function (req, res) {
     res.set('Pragma', 'no-cache');
     res.set('Expires', 'Tue, 04 Sep 2012 05:32:29 GMT');
     puppies.randomPuppy(function(puppy) {
+      sha = crypto.createHash('sha1');
+      sha.update(puppy.source, 'utf8');
+      res.set('ETag', sha.digest('hex'));
       res.render('index', {
         puppy: puppy
       });

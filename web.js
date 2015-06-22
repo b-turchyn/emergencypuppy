@@ -87,6 +87,19 @@ app.get('/img/random', function (req, res) {
   });
 });
 
+app.get('/img/:id.gif', function (req, res, next) {
+  puppies.byId(req.params.id, function(puppy) {
+    if (!puppy) {
+        return next();
+    }
+    if( puppy.videoUrl !== null ) {
+      res.redirect(302, puppy.videoUrl + ".gif");
+    } else {
+      res.redirect(302, puppy.imageUrl);
+    }
+  });
+});
+
 app.get('/img/:id', function (req, res, next) {
   puppies.byId(req.params.id, function(puppy) {
     if (!puppy) {

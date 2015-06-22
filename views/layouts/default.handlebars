@@ -12,9 +12,10 @@
         <meta property="og:locale" content="en_US" />
         <meta property="og:url" content="{{../urlPrefix}}puppy/{{id}}" />
         {{#if videoUrl}}
-        <meta property="og:video" content="{{../../urlPrefix}}puppy/{{id}}" />
+        <meta property="og:video" content="{{../../urlPrefix}}img/{{id}}" />
+        <meta property="og:image" content="{{../../urlPrefix}}img/{{id}}.gif" />
         {{else}}
-        <meta property="og:image" content="{{../../urlPrefix}}puppy/{{id}}" />
+        <meta property="og:image" content="{{../../urlPrefix}}img/{{id}}" />
         {{/if}}
       {{/puppy}}
     {{/if}}

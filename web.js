@@ -1,6 +1,7 @@
 var express = require('express'),
     crypto = require('crypto'),
     puppies = require('./lib/puppies'),
+    valid = require('./lib/validator'),
     sqlite3 = require('sqlite3'),
     bodyParser = require('body-parser'),
     request = require('request'),
@@ -43,8 +44,7 @@ app.get('/submit', function(req, res) {
 app.post('/submit', function(req, res) {
   var errors = [];
   if( req.body.redditURL === undefined 
-    || !(req.body.redditURL.lastIndexOf('https://www.reddit.com/', 0) === 0
-    || req.body.redditURL.lastIndexOf('http://www.reddit.com/', 0) === 0 ) ) {
+    || !valid.domainName(req.body.redditURL) ) {
       errors.push('Invalid URL');
   }
 

@@ -20,6 +20,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
+  res.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', 'Tue, 04 Sep 2012 05:32:29 GMT');
   puppies.randomPuppy(function(puppy) {
     res.redirect('/puppy/' + puppy.id);
   });

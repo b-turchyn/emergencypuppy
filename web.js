@@ -20,19 +20,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-    res.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', 'Tue, 04 Sep 2012 05:32:29 GMT');
-    puppies.randomPuppy(function(puppy) {
-      sha = crypto.createHash('sha1');
-      sha.update(puppy.source, 'utf8');
-      res.set('ETag', sha.digest('hex'));
-      res.render('index', {
-        puppy: puppy,
-        showOGP: true,
-        urlPrefix: req.protocol + '://' + req.get('host') + '/'
-      });
-    });
+  puppies.randomPuppy(function(puppy) {
+    res.redirect('/puppy/' + puppy.id);
+  });
 });
 
 app.get('/submit', function(req, res) {
@@ -118,6 +108,9 @@ app.get('/puppy/:id', function (req, res, next) {
     if (!puppy) {
         return next();
     }
+    sha = crypto.createHash('sha1');
+    sha.update(puppy.source, 'utf8');
+    res.set('ETag', sha.digest('hex'));
     res.render('index', {
         puppy: puppy,
         showOGP: true,

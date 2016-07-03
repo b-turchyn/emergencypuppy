@@ -9,8 +9,13 @@ div.buttons {
 }
 
 .puppy-image {
-    min-height: 600px;
     max-height: 90vh;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
 }
 
 .license {

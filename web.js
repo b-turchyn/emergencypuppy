@@ -7,9 +7,9 @@ var express = require('express'),
     request = require('request'),
     cheerio = require('cheerio'),
     camoUrl = require('camo-url')({
-        host: 'https://s.btdev.org/camo',
-        key: 'jTZljkICfP1DxfMGTDISEgysgkbvFoqyLwEQGcFk6Rjq0aM0f2kZEjEaqQm7tyaT',
-        type: 'path'
+        host: process.env.CAMO_HOST || 'https://s.btdev.org/camo',
+        key: process.env.CAMO_KEY || 'jTZljkICfP1DxfMGTDISEgysgkbvFoqyLwEQGcFk6Rjq0aM0f2kZEjEaqQm7tyaT',
+        type: process.env.CAMO_TYPE || 'path'
     });
 
 var app = express();

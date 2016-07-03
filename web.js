@@ -5,9 +5,18 @@ var express = require('express'),
     sqlite3 = require('sqlite3'),
     bodyParser = require('body-parser'),
     request = require('request'),
-    cheerio = require('cheerio');
+    cheerio = require('cheerio'),
+    camoUrl = require('camo-url')({
+        host: 'https://s.btdev.org/camo',
+        key: 'jTZljkICfP1DxfMGTDISEgysgkbvFoqyLwEQGcFk6Rjq0aM0f2kZEjEaqQm7tyaT',
+        type: 'path'
+    });
 
 var app = express();
+
+var camo = function(url) {
+  return camoUrl(url).replace('https://s.btdev.org/', 'https://s.btdev.org/camo/');
+};
 
 app.enable('etag')
 
@@ -76,7 +85,7 @@ app.post('/submit', function(req, res) {
 
 app.get('/img/random', function (req, res) {
   puppies.randomPuppy(function(puppy) {
-    res.redirect(302, puppy.imageUrl);
+    res.redirect(302, camo(puppy.imageUrl));
   });
 });
 
@@ -86,9 +95,9 @@ app.get('/img/:id.gif', function (req, res, next) {
         return next();
     }
     if( puppy.videoUrl !== null ) {
-      res.redirect(302, puppy.videoUrl + ".gif");
+      res.redirect(302, camo(puppy.videoUrl + ".gif"));
     } else {
-      res.redirect(302, puppy.imageUrl);
+      res.redirect(302, camo(puppy.imageUrl));
     }
   });
 });
@@ -99,9 +108,9 @@ app.get('/img/:id', function (req, res, next) {
         return next();
     }
     if( puppy.videoUrl !== null ) {
-      res.redirect(302, puppy.videoUrl + ".gifv");
+      res.redirect(302, camo(puppy.videoUrl + ".gifv"));
     } else {
-      res.redirect(302, puppy.imageUrl);
+      res.redirect(302, camo(puppy.imageUrl));
     }
   });
 });

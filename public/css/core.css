@@ -34,3 +34,16 @@ div.buttons {
     width: 25em;
     text-align: center;
 }
+
+@media(max-width: 768px) {
+  .button-row {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #2b3e50;
+  }
+
+  body {
+    padding-bottom: 40px;
+  }
+}

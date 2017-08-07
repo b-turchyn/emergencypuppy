@@ -4,13 +4,24 @@ var express = require('express'),
     valid = require('./lib/validator'),
     sqlite3 = require('sqlite3'),
     bodyParser = require('body-parser'),
-    request = require('request'),
-    cheerio = require('cheerio'),
+    sources = require('./lib/sources'),
     camoUrl = require('camo-url')({
         host: process.env.CAMO_HOST || 'https://s.btdev.org/camo',
         key: process.env.CAMO_KEY || 'jTZljkICfP1DxfMGTDISEgysgkbvFoqyLwEQGcFk6Rjq0aM0f2kZEjEaqQm7tyaT',
         type: process.env.CAMO_TYPE || 'path'
     });
+
+if (!String.prototype.endsWith)
+  String.prototype.endsWith = function(searchStr, Position) {
+    // This works much better than >= because
+    // it compensates for NaN:
+    if (!(Position < this.length))
+      Position = this.length;
+    else
+      Position |= 0; // round position
+    return this.substr(Position - searchStr.length,
+      searchStr.length) === searchStr;
+  };
 
 var app = express();
 
@@ -45,32 +56,21 @@ app.get('/submit', function(req, res) {
 
 app.post('/submit', function(req, res) {
   var errors = [];
+  var url = req.body.redditURL;
   if( req.body.redditURL === undefined 
-    || !valid.domainName(req.body.redditURL) ) {
+    || !sources.canHandle(url) ) {
+      console.log("Got errors");
       errors.push('Invalid URL');
   }
 
   if( errors.length === 0 ) {
-    puppies.submit(req.body.redditURL, req.ip, function(result, id) {
+    puppies.submit(url, req.ip, function(result, id) {
       res.render('submit', {
         post: true,
         result: result
       });
-      request(req.body.redditURL, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          var $ = cheerio.load(body),
-              selector = $("p.title > a"),
-              image = selector.attr('href'),
-              title = selector.text();
-          if(image.lastIndexOf('http://imgur.com/', 0) === 0) {
-            image = image.replace('http://imgur.com/', 'http://i.imgur.com/') + '.png';
-          }
-          if(image.lastIndexOf('https://imgur.com/', 0) === 0) {
-            image = image.replace('https://imgur.com/', 'https://i.imgur.com/') + '.png';
-          }
-
-          puppies.update(id, image, title);
-        }
+      sources.handle(id, url, function(permalink, image, title) {
+        console.log("Done");
       });
     });
   } else {
@@ -118,15 +118,17 @@ app.get('/img/:id', function (req, res, next) {
 app.get('/puppy/:id', function (req, res, next) {
   puppies.byId(req.params.id, function(puppy) {
     if (!puppy) {
-        return next();
+      return next();
     }
     sha = crypto.createHash('sha1');
     sha.update(puppy.source, 'utf8');
     res.set('ETag', sha.digest('hex'));
+    puppy.slug = (puppy.videoUrl != null && puppy.videoUrl.lastIndexOf("imgur.com") !== -1 ?
+      puppy.videoUrl.substring(puppy.videoUrl.lastIndexOf("/") + 1) : null);
     res.render('index', {
-        puppy: puppy,
-        showOGP: true,
-        urlPrefix: req.protocol + '://' + req.get('host') + '/'
+      puppy: puppy,
+      showOGP: true,
+      urlPrefix: req.protocol + '://' + req.get('host') + '/'
     });
   });
 });

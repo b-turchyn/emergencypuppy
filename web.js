@@ -118,15 +118,17 @@ app.get('/img/:id', function (req, res, next) {
 app.get('/puppy/:id', function (req, res, next) {
   puppies.byId(req.params.id, function(puppy) {
     if (!puppy) {
-        return next();
+      return next();
     }
     sha = crypto.createHash('sha1');
     sha.update(puppy.source, 'utf8');
     res.set('ETag', sha.digest('hex'));
+    puppy.slug = (puppy.videoUrl != null && puppy.videoUrl.lastIndexOf("imgur.com") !== -1 ?
+      puppy.videoUrl.substring(puppy.videoUrl.lastIndexOf("/") + 1) : null);
     res.render('index', {
-        puppy: puppy,
-        showOGP: true,
-        urlPrefix: req.protocol + '://' + req.get('host') + '/'
+      puppy: puppy,
+      showOGP: true,
+      urlPrefix: req.protocol + '://' + req.get('host') + '/'
     });
   });
 });

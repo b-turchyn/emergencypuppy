@@ -139,7 +139,7 @@ app.get('/api/puppy.json', function (req, res, next) {
   });
 });
 
-app.get('/api/puppy/:id.json', function(req, res, next) {
+app.post('/api/puppy/:id.json', function(req, res, next) {
   puppies.byId(req.params.id, function(puppy) {
     if (!puppy) {
         return next();
@@ -149,7 +149,7 @@ app.get('/api/puppy/:id.json', function(req, res, next) {
 });
 
 // 404 handler (must come last)
-app.get('*', function (req, res) {
+app.post('*', function (req, res) {
     res.set('Status', 404);
 
     puppies.randomPuppy(function(puppy) {

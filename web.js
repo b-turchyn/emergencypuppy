@@ -122,6 +122,21 @@ app.get('/puppy/:id', function (req, res, next) {
   });
 });
 
+app.get('/api/puppy.json', function (req, res, next) {
+  puppies.randomPuppy(function(puppy) {
+    res.send(JSON.stringify(slackJSON(puppy)));
+  });
+});
+
+app.get('/api/puppy/:id.json', function(req, res, next) {
+  puppies.byId(req.params.id, function(puppy) {
+    if (!puppy) {
+        return next();
+    }
+    res.send(JSON.stringify(slackJSON(puppy)));
+  });
+});
+
 // 404 handler (must come last)
 app.get('*', function (req, res) {
     res.set('Status', 404);
@@ -134,6 +149,21 @@ app.get('*', function (req, res) {
       });
     });
 });
+
+var slackJSON = function (puppy) {
+  return {
+    "attachments": [
+      {
+        "fallback": puppy.title,
+        "color": "#2b3e50",
+        "title_link": "https://emergencypuppy.party/puppy/" + puppy.id,
+        "title": puppy.title,
+        "image_url": "https://emergencypuppy.party/img/" + puppy.id,
+        "footer": "Emergency Puppy! #" + puppy.id
+      }
+    ]
+  };
+};
 
 var port = process.env.PORT || 5000;
 

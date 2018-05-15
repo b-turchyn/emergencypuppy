@@ -1,15 +1,14 @@
 <div class="centered">
     {{#puppy}}
         <p>
-            <a href="{{source}}" title="{{title}}" class="puppy">
-                {{#if videoUrl}}
-                <video autoplay="" loop="" muted="" preload="" class="puppy-image">
-                    <source src="{{videoUrl}}.webm" type="video/webm" class="imgurgifvwebmsrc">
-                    <source src="{{videoUrl}}.mp4" type="video/mp4" class="imgurgifvmp4src">
-                </video>
-                {{/if}}
-                {{#if imageUrl}}<img class="puppy-image" src="/img/{{id}}" alt="{{imageAlt}}">{{/if}}
-            </a>
+            {{#if videoUrl}}
+              <blockquote class="imgur-embed-pub" lang="en" data-id="{{slug}}"><a href="//imgur.com/{{slug}}">{{title}}</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            {{/if}}
+            {{#if imageUrl}}
+              <a href="{{source}}" title="{{title}}" class="puppy">
+                <img class="puppy-image" src="/img/{{id}}" alt="{{imageAlt}}">
+              </a>
+            {{/if}}
         </p>
 
         <p class="permalink">

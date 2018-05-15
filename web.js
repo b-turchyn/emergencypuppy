@@ -133,7 +133,7 @@ app.get('/puppy/:id', function (req, res, next) {
   });
 });
 
-app.get('/api/puppy.json', function (req, res, next) {
+app.post('/api/puppy.json', function (req, res, next) {
   puppies.randomPuppy(function(puppy) {
     res.send(JSON.stringify(slackJSON(puppy)));
   });
@@ -149,7 +149,7 @@ app.post('/api/puppy/:id.json', function(req, res, next) {
 });
 
 // 404 handler (must come last)
-app.post('*', function (req, res) {
+app.get('*', function (req, res) {
     res.set('Status', 404);
 
     puppies.randomPuppy(function(puppy) {

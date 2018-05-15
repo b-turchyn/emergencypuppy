@@ -135,6 +135,7 @@ app.get('/puppy/:id', function (req, res, next) {
 
 app.post('/api/puppy.json', function (req, res, next) {
   puppies.randomPuppy(function(puppy) {
+    res.set('Content-Type', 'application/json');
     res.send(JSON.stringify(slackJSON(puppy)));
   });
 });
@@ -144,6 +145,7 @@ app.post('/api/puppy/:id.json', function(req, res, next) {
     if (!puppy) {
         return next();
     }
+    res.set('Content-Type', 'application/json');
     res.send(JSON.stringify(slackJSON(puppy)));
   });
 });

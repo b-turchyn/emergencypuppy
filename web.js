@@ -165,6 +165,7 @@ app.get('*', function (req, res) {
 
 var slackJSON = function (puppy) {
   return {
+    "response_type": "in_channel",
     "attachments": [
       {
         "fallback": puppy.title,
